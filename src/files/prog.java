@@ -62,6 +62,7 @@ class CarRentalSystem {
                 avail_car.write(temp_car_obj.nextLine());
             }
             avail_car.close();
+            temp_car_obj.close();
             FileWriter temp_f=new FileWriter("temp_file.txt",false);
             temp_f.write("");
             temp_f.close();
