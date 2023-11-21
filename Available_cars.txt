@@ -1,3 +1,2 @@
-SUV 10
-Sedan 12
 BMW 15
+Sedan 10

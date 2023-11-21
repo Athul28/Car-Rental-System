@@ -62,9 +62,9 @@ class CarRentalSystem {
                 avail_car.write(temp_car_obj.nextLine());
             }
             avail_car.close();
-            //FileWriter temp_f=new FileWriter("temp_file.txt",false);
-            //temp_f.write("");
-            //temp_f.close();
+            FileWriter temp_f=new FileWriter("temp_file.txt",false);
+            temp_f.write("");
+            temp_f.close();
             if (flag) {
                 System.out.println("Car not available, please choose some other car");
             }
