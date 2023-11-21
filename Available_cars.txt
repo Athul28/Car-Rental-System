@@ -1,0 +1,3 @@
+Suv 10
+Sedan 8
+BMW 15
