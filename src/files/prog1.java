@@ -3,7 +3,7 @@ import java.io.File;
 
 public class prog1 {
     public static void main(String[] args) {
-        File f=new File("Available_cars.txt");
+        File f=new File("temp_file.txt");
         try{
             f.createNewFile();
             System.out.println("A file created");

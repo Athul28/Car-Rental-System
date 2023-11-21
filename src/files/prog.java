@@ -1,6 +1,7 @@
 package files;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
@@ -43,24 +44,47 @@ class CarRentalSystem {
         int hour = sc.nextInt();
         try {
             File avail_obj = new File("Available_cars.txt");
+            File temp_obj = new File("temp_file.txt");
             Scanner avail_cars_obj = new Scanner(avail_obj);
+            Scanner temp_car_obj=new Scanner(temp_obj);
             boolean flag = true;
             while (avail_cars_obj.hasNextLine()) {
                 String[] words = (avail_cars_obj.nextLine()).split("\\s+");
-                if (words[0] == car_name) {
+                add_car_rent(words,"temp_file.txt");
+                if (Objects.equals(words[0], car_name)) {
                     System.out.println("Total price would be : " + (hour * Integer.parseInt(words[1])));
                     flag = false;
-                    break;
+                    add_car_rent(words,"Rented_cars.txt");
                 }
             }
+            FileWriter avail_car=new FileWriter("Available_cars.txt",false);
+            while(temp_car_obj.hasNextLine()){
+                avail_car.write(temp_car_obj.nextLine());
+            }
+            avail_car.close();
+            //FileWriter temp_f=new FileWriter("temp_file.txt",false);
+            //temp_f.write("");
+            //temp_f.close();
             if (flag) {
                 System.out.println("Car not available, please choose some other car");
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
+        } catch (IOException e) {
+            System.out.println("Error while writing into the file");
         }
     }
 
+    void add_car_rent(String[] car,String f){
+        try{
+            FileWriter obj=new FileWriter(f);
+            obj.write(car[0]+" "+car[1]+"\n");
+            obj.close();
+        }catch(IOException e){
+            System.out.println("Couldn't add car to the file");
+        }
+    }
+}
     public class prog {
         public static void main(String[] args) {
             CarRentalSystem obj = new CarRentalSystem();
@@ -75,6 +99,9 @@ class CarRentalSystem {
                 System.out.print("Enter your choice : ");
                 choice = sc.nextInt();
                 switch (choice) {
+                    case 1:
+                        obj.rent_car();
+                        break;
                     case 2:
                         obj.show_cars("Available_cars.txt");
                         break;
@@ -92,4 +119,3 @@ class CarRentalSystem {
             } while (choice != 0);
         }
     }
-}
