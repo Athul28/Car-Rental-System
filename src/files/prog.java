@@ -12,6 +12,10 @@ class CarRentalSystem {
     void show_cars(String f) {
         try {
             File obj = new File(f);
+            if(obj.length()==0){
+                System.out.println("Empty");
+                return;
+            }
             Scanner avail_cars_obj = new Scanner(obj);
             while (avail_cars_obj.hasNextLine()) {
                 String[] words = (avail_cars_obj.nextLine()).split("\\s+");
@@ -88,6 +92,43 @@ class CarRentalSystem {
             System.out.println("Couldn't add car to the file");
         }
     }
+
+    void return_car(){
+        System.out.print("Enter the car name : ");
+        String car_name=sc.next();
+        File rentedcar_obj=new File("Rented_cars.txt");
+        try{
+            Scanner rented_obj=new Scanner(rentedcar_obj);
+            boolean flag=true;
+            while(rented_obj.hasNextLine()){
+                String[] words = (rented_obj.nextLine()).split("\\s+");
+                if(Objects.equals(words[0], car_name)){
+                    add_car_rent(words,"Available_cars.txt");
+                    flag=false;
+                }else{
+                    add_car_rent(words,"temp_file.txt");
+                }
+            }
+            FileWriter avail_car=new FileWriter("Rented_cars.txt",false);
+            while(rented_obj.hasNextLine()){
+                avail_car.write(rented_obj.nextLine()+"\n");
+            }
+            avail_car.close();
+            rented_obj.close();
+            FileWriter temp_f=new FileWriter("temp_file.txt",false);
+            temp_f.write("");
+            temp_f.close();
+            if(flag){
+                System.out.println("Entered car is not on rent");
+            }else{
+                System.out.println("Done!");
+            }
+        }catch(FileNotFoundException e){
+            System.out.println("File not found");
+        }catch(IOException e){
+            System.out.println("Couldn't add the car");
+        }
+    }
 }
     public class prog {
         public static void main(String[] args) {
@@ -96,7 +137,7 @@ class CarRentalSystem {
             //Scanner avail_cars_obj=new Scanner("Available_cars.txt");
             System.out.println("Car Rental System");
             System.out.println("--------------------");
-            System.out.println("1.Rent a car\n2.Show available cars\n3.Add a car\n4.Show rented cars\n0.Exit");
+            System.out.println("1.Rent a car\n2.Show available cars\n3.Add a car\n4.Show rented cars\n5.Return a rented car\n0.Exit");
             System.out.println("--------------------");
             int choice;
             do {
@@ -114,6 +155,9 @@ class CarRentalSystem {
                         break;
                     case 4:
                         obj.show_cars("Rented_cars.txt");
+                        break;
+                    case 5:
+                        obj.return_car();
                         break;
                     case 0:
                         System.out.println("Exiting the program");
