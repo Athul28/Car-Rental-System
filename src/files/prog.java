@@ -54,7 +54,7 @@ class CarRentalSystem {
             boolean flag = true;
             while (avail_cars_obj.hasNextLine()) {
                 String[] words = (avail_cars_obj.nextLine()).split("\\s+");
-                if (Objects.equals(words[0], car_name)) {
+                if (Objects.equals(words[0].toUpperCase(), car_name.toUpperCase())) {
                     System.out.println("Total price would be : " + (hour * Integer.parseInt(words[1])));
                     flag = false;
                     add_car_rent(words,"Rented_cars.txt");
@@ -102,7 +102,7 @@ class CarRentalSystem {
             boolean flag=true;
             while(rented_obj.hasNextLine()){
                 String[] words = (rented_obj.nextLine()).split("\\s+");
-                if(Objects.equals(words[0], car_name)){
+                if(Objects.equals(words[0].toUpperCase(), car_name.toUpperCase())){
                     add_car_rent(words,"Available_cars.txt");
                     flag=false;
                 }else{
