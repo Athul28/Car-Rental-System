@@ -30,7 +30,7 @@ class CarRentalSystem {
             String car_name = sc.next();
             System.out.println("Enter the car price/hour : ");
             int price = sc.nextInt();
-            obj.write("\n" + car_name + " " + price);
+            obj.write( car_name + " " + price+"\n");
             obj.close();
         } catch (IOException e) {
             System.out.println("An error occurred while writing into the file");
@@ -38,9 +38,9 @@ class CarRentalSystem {
     }
 
     void rent_car() {
-        System.out.println("Enter the car name : ");
+        System.out.print("Enter the car name : ");
         String car_name = sc.next();
-        System.out.println("Enter the hours you want to rent the car : ");
+        System.out.print("Enter the hours you want to rent the car : ");
         int hour = sc.nextInt();
         try {
             File avail_obj = new File("Available_cars.txt");
@@ -50,16 +50,17 @@ class CarRentalSystem {
             boolean flag = true;
             while (avail_cars_obj.hasNextLine()) {
                 String[] words = (avail_cars_obj.nextLine()).split("\\s+");
-                add_car_rent(words,"temp_file.txt");
                 if (Objects.equals(words[0], car_name)) {
                     System.out.println("Total price would be : " + (hour * Integer.parseInt(words[1])));
                     flag = false;
                     add_car_rent(words,"Rented_cars.txt");
+                }else{
+                    add_car_rent(words,"temp_file.txt");
                 }
             }
             FileWriter avail_car=new FileWriter("Available_cars.txt",false);
             while(temp_car_obj.hasNextLine()){
-                avail_car.write(temp_car_obj.nextLine());
+                avail_car.write(temp_car_obj.nextLine()+"\n");
             }
             avail_car.close();
             temp_car_obj.close();
@@ -68,6 +69,8 @@ class CarRentalSystem {
             temp_f.close();
             if (flag) {
                 System.out.println("Car not available, please choose some other car");
+            }else{
+                System.out.println("Car booked!!!");
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
@@ -78,7 +81,7 @@ class CarRentalSystem {
 
     void add_car_rent(String[] car,String f){
         try{
-            FileWriter obj=new FileWriter(f);
+            FileWriter obj=new FileWriter(f,true);
             obj.write(car[0]+" "+car[1]+"\n");
             obj.close();
         }catch(IOException e){
